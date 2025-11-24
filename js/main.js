@@ -390,51 +390,17 @@ document.getElementById("form-ucapan").addEventListener("submit", function (even
 /** =====================================================
  *  Handle Kehadiran Count
   ======================================================= */
-function incrementCount(endpoint, successMessage, iconClass, closeMenuId) {
-    fetch(endpoint, {
+function submitAttendance(status) {
+    const scriptURL = "PASTE_WEB_APP_URL_HERE"; // URL from Step 3
+
+    fetch(scriptURL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'action=increment',
+        body: new URLSearchParams({
+            'status': status
+        })
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Request failed");
-        }
-    })
-    .then(data => {
-        if (data.attend) {
-            // Display the success message
-            const successMenu = document.getElementById("success-menu");
-            successMenu.innerHTML = `<div class='success-message'><i class='${iconClass}'></i><p>${successMessage}</p></div>`;
-            successMenu.classList.add("open"); // Open the success menu
-
-            // Optionally close other menu
-            if (closeMenuId) {
-                closeMenu(closeMenuId); // Close the specified menu
-            }
-        } else {
-            console.error("Increment count error:", data.error);
-            alert("Terjadi kesilapan: " + data.error);
-        }
-    })
-    .catch(error => {
-        console.error("AJAX error:", error);
-        alert("Error processing the request.");
-    });
-}
-
-// Attach the click event to the "Hadir" and "Tidak Hadir" buttons
-document.getElementById("btn-hadir").onclick = function() {
-    incrementCount('count_hadir.php', "Kami menantikan kedatangan anda!", 'bx bxs-wink-smile', 'rsvp-menu'); // Success message and optionally close RSVP menu
-};
-
-document.getElementById("btn-tidak-hadir").onclick = function() {
-    incrementCount('count_tidak_hadir.php', "Maaf, mungkin lain kali.", 'bx bxs-sad', 'rsvp-menu'); // Success message and optionally close RSVP menu
-};
+    .then(res => alert("Terima kasih! Maklumat telah direkod."))
+    .catch(err => alert("Error: " + err));
 
 
 
