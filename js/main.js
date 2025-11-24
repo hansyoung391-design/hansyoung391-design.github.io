@@ -349,38 +349,26 @@ const kehadiranBtn = document.getElementById("kehadiran-btn");
 // function submitUcapan() {
 //     document.getElementById("form-ucapan").submit();
 // }
-document.getElementById("form-ucapan").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
+document.getElementById("form-ucapan").addEventListener("submit", function(e) {
+    e.preventDefault(); // hentikan reload default
 
-    const form = document.getElementById("form-ucapan");
-    const formData = new FormData(form); // Collect the form data
-    const actionUrl = form.action; // Get the form's target URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwJ_UhLbilHvd35O4VOr2e3V6e2TrPGN0qZi7XSRFhnMZwlW-315gNGlPNfh8HbB3zw-w/exec";
 
-    fetch(actionUrl, {
-        method: "POST", // Use the POST method to submit data
-        body: formData, // Attach the FormData object
+    const form = new FormData(this);
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: form
     })
-    .then(response => {
-        if (response.ok) {
-            return response.text(); // Process the response as text
-        } else {
-            throw new Error("Form submission failed"); // Handle errors
-        }
-    })
-    .then(result => {
-        // Display the success message in the success-menu
-        const successMenu = document.getElementById("success-menu");
-        successMenu.innerHTML = "<div class='success-message'><i class='bx bx-check'></i><p>Mesej anda berjaya dihantar!</p></div>";
-        successMenu.classList.add("open"); // Open the success menu
-
-        // Close the ucapan menu after successful submission
+    .then(response => response.json())
+    .then(data => {
+        alert("Terima kasih atas ucapan anda!");
+        document.getElementById("form-ucapan").reset();
         closeMenu('ucapan-menu');
-
-        // Optionally reset the form
-        form.reset();
     })
     .catch(error => {
-        console.error("Error:", error); // Log any errors
+        alert("Ralat menghantar ucapan.");
+        console.error(error);
     });
 });
 
