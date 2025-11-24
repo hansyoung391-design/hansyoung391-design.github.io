@@ -349,7 +349,7 @@ const kehadiranBtn = document.getElementById("kehadiran-btn");
 // function submitUcapan() {
 //     document.getElementById("form-ucapan").submit();
 // }
-const scriptURL_Ucapan = "https://script.google.com/macros/s/AKfycbxdeYEBuQXwB5Q_Ki1mqI7pLb-ceNoeno07LgkcVSCrmaZC3nmKu5pwu_VRlxcL2kpbIQ/exec";
+const scriptURL_Ucapan = "https://script.google.com/macros/s/AKfycbzLBTE8U6sP58q3srqwulZqCzRNwKVnJOZSX-k_HXStp7zn355gF_kjMad17DNhphYYXw/exec";
 
 document.getElementById("form-ucapan").addEventListener("submit", function(e){
     e.preventDefault(); // stop form reload
@@ -373,6 +373,7 @@ document.getElementById("form-ucapan").addEventListener("submit", function(e){
         alert("Error hantar ucapan: " + err);
     });
 });
+
 
 
 
