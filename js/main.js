@@ -388,51 +388,33 @@ document.getElementById("form-ucapan").addEventListener("submit", function (even
 
 
 /** =====================================================
- *  Handle Kehadiran Count
+ *  Kehadiran → Rekod ke Google Sheet
   ======================================================= */
-function incrementCount(endpoint, successMessage, iconClass, closeMenuId) {
-    fetch(endpoint)
-    .then(response => response.json())
-    .then(data => {
-        // Display success
-        const successMenu = document.getElementById("success-menu");
-        successMenu.innerHTML = `<div class='success-message'>
-                                    <i class='${iconClass}'></i>
-                                    <p>${successMessage}</p>
-                                </div>`;
-        successMenu.classList.add("open");
+// 1. Masukkan URL Web App Apps Script di sini
+const scriptURL = "https://script.google.com/macros/s/AKfycbwdhtEOd_hntFjH6EjYx7MgxVMtw2hq6vawgyvtAACNqgo6xNLMLrVJ3osVHj3vCarR/exec";
 
-        if (closeMenuId) {
-            closeMenu(closeMenuId);
-        }
-    })
-    .catch(error => {
-        console.error("AJAX error:", error);
-        alert("Error processing the request.");
-    });
-}
-
-// ==========================
-// BUTTON CLICK
-// ==========================
-
+// 2. Bila Klik HADIR
 document.getElementById("btn-hadir").onclick = function() {
-    incrementCount(
-        "https://script.google.com/macros/s/AKfycbyRf9G1e_0rf9kTKsmwa41hce0Ez__umO7G0sYBAaxOZxqneeeePXIKD81FLgwr-qm3/exec?action=hadir",
-        "Kami menantikan kedatangan anda!",
-        "bx bxs-wink-smile",
-        "rsvp-menu"
-    );
+    sendStatus("Hadir");
 };
 
+// 3. Bila Klik TIDAK HADIR
 document.getElementById("btn-tidak-hadir").onclick = function() {
-    incrementCount(
-        "https://script.google.com/macros/s/AKfycbyRf9G1e_0rf9kTKsmwa41hce0Ez__umO7G0sYBAaxOZxqneeeePXIKD81FLgwr-qm3/exec?action=tidak_hadir",
-        "Maaf, mungkin lain kali.",
-        "bx bxs-sad",
-        "rsvp-menu"
-    );
+    sendStatus("Tidak Hadir");
 };
+
+// 4. Function hantar ke Google Sheet
+function sendStatus(status) {
+    fetch(scriptURL + "?status=" + encodeURIComponent(status))
+        .then(r => r.json())
+        .then(() => {
+            alert("Terima kasih! Rekod dihantar.");
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error menghantar rekod.");
+        });
+}
 
 
 
