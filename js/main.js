@@ -391,7 +391,7 @@ document.getElementById("form-ucapan").addEventListener("submit", function (even
  *  Handle Kehadiran Count
   ======================================================= */
 function submitAttendance(status) {
-    const scriptURL = "PASTE_WEB_APP_URL_HERE"; // URL from Step 3
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxo08wiWJ4Y6lh7y8CsIWQfiJcxeoI_lBuSeYIGYCN42_Nkmrv_nxGhR1Ih9TkwAitU/exec";
 
     fetch(scriptURL, {
         method: 'POST',
