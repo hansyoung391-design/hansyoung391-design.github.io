@@ -391,34 +391,19 @@ document.getElementById("form-ucapan").addEventListener("submit", function (even
  *  Handle Kehadiran Count
   ======================================================= */
 function incrementCount(endpoint, successMessage, iconClass, closeMenuId) {
-    fetch(endpoint, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'action=increment',
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Request failed");
-        }
-    })
+    fetch(endpoint)
+    .then(response => response.json())
     .then(data => {
-        if (data.attend) {
-            // Display the success message
-            const successMenu = document.getElementById("success-menu");
-            successMenu.innerHTML = `<div class='success-message'><i class='${iconClass}'></i><p>${successMessage}</p></div>`;
-            successMenu.classList.add("open"); // Open the success menu
+        // Display success
+        const successMenu = document.getElementById("success-menu");
+        successMenu.innerHTML = `<div class='success-message'>
+                                    <i class='${iconClass}'></i>
+                                    <p>${successMessage}</p>
+                                </div>`;
+        successMenu.classList.add("open");
 
-            // Optionally close other menu
-            if (closeMenuId) {
-                closeMenu(closeMenuId); // Close the specified menu
-            }
-        } else {
-            console.error("Increment count error:", data.error);
-            alert("Terjadi kesilapan: " + data.error);
+        if (closeMenuId) {
+            closeMenu(closeMenuId);
         }
     })
     .catch(error => {
@@ -427,13 +412,26 @@ function incrementCount(endpoint, successMessage, iconClass, closeMenuId) {
     });
 }
 
-// Attach the click event to the "Hadir" and "Tidak Hadir" buttons
+// ==========================
+// BUTTON CLICK
+// ==========================
+
 document.getElementById("btn-hadir").onclick = function() {
-    incrementCount('count_hadir.php', "Kami menantikan kedatangan anda!", 'bx bxs-wink-smile', 'rsvp-menu'); // Success message and optionally close RSVP menu
+    incrementCount(
+        "https://script.google.com/macros/s/AKfycbyRf9G1e_0rf9kTKsmwa41hce0Ez__umO7G0sYBAaxOZxqneeeePXIKD81FLgwr-qm3/exec?action=hadir",
+        "Kami menantikan kedatangan anda!",
+        "bx bxs-wink-smile",
+        "rsvp-menu"
+    );
 };
 
 document.getElementById("btn-tidak-hadir").onclick = function() {
-    incrementCount('count_tidak_hadir.php', "Maaf, mungkin lain kali.", 'bx bxs-sad', 'rsvp-menu'); // Success message and optionally close RSVP menu
+    incrementCount(
+        "https://script.google.com/macros/s/AKfycbyRf9G1e_0rf9kTKsmwa41hce0Ez__umO7G0sYBAaxOZxqneeeePXIKD81FLgwr-qm3/exec?action=tidak_hadir",
+        "Maaf, mungkin lain kali.",
+        "bx bxs-sad",
+        "rsvp-menu"
+    );
 };
 
 
