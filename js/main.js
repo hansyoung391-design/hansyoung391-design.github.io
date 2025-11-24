@@ -349,28 +349,29 @@ const kehadiranBtn = document.getElementById("kehadiran-btn");
 // function submitUcapan() {
 //     document.getElementById("form-ucapan").submit();
 // }
-const scriptURL_Ucapan = "https://script.google.com/macros/s/AKfycbxPLCG7k2A3V0p7dtbPUtddT4HFZ_7rGyxffalG7S_RfFaDRqhFTBqK5eIojVMVaTl6Jw/exec";
+const ucapanURL = "https://script.google.com/macros/s/AKfycbyjTbBee6lCvoXaJCmmHNAzl_k3XvDxo5rFnss4ZiF84A_dGX3wltjSfPlw_kTgnkQ_Xg/exec"; // tukar URL
 
-document.getElementById("form-ucapan").addEventListener("submit", function(e){
-    e.preventDefault(); // stop form reload
+document.getElementById("form-ucapan").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-    const name = this.querySelector('input[name="name"]').value;
-    const message = this.querySelector('textarea[name="message"]').value;
+    const name = document.querySelector('input[name="name"]').value;
+    const message = document.querySelector('textarea[name="message"]').value;
 
-    fetch(scriptURL_Ucapan, {
+    fetch(ucapanURL, {
         method: "POST",
         body: new URLSearchParams({
-            "name": name,
-            "message": message
+            name: name,
+            message: message
         })
     })
-    .then(res => res.json())
-    .then(result => {
-        alert("Ucapan berjaya dihantar! ❤️");
+    .then(r => r.json())
+    .then(res => {
+        alert("Ucapan telah dihantar!");
         document.getElementById("form-ucapan").reset();
     })
     .catch(err => {
-        alert("Error hantar ucapan: " + err);
+        alert("Ralat menghantar ucapan!");
+        console.error(err);
     });
 });
 
