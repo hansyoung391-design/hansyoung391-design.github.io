@@ -349,28 +349,31 @@ const kehadiranBtn = document.getElementById("kehadiran-btn");
 // function submitUcapan() {
 //     document.getElementById("form-ucapan").submit();
 // }
-document.getElementById("form-ucapan").addEventListener("submit", function(e) {
-    e.preventDefault(); // hentikan reload default
+const scriptURL_Ucapan = "https://script.google.com/macros/s/AKfycbxPLCG7k2A3V0p7dtbPUtddT4HFZ_7rGyxffalG7S_RfFaDRqhFTBqK5eIojVMVaTl6Jw/exec";
 
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwJ_UhLbilHvd35O4VOr2e3V6e2TrPGN0qZi7XSRFhnMZwlW-315gNGlPNfh8HbB3zw-w/exec";
+document.getElementById("form-ucapan").addEventListener("submit", function(e){
+    e.preventDefault(); // stop form reload
 
-    const form = new FormData(this);
+    const name = this.querySelector('input[name="name"]').value;
+    const message = this.querySelector('textarea[name="message"]').value;
 
-    fetch(scriptURL, {
+    fetch(scriptURL_Ucapan, {
         method: "POST",
-        body: form
+        body: new URLSearchParams({
+            "name": name,
+            "message": message
+        })
     })
-    .then(response => response.json())
-    .then(data => {
-        alert("Terima kasih atas ucapan anda!");
+    .then(res => res.json())
+    .then(result => {
+        alert("Ucapan berjaya dihantar! ❤️");
         document.getElementById("form-ucapan").reset();
-        closeMenu('ucapan-menu');
     })
-    .catch(error => {
-        alert("Ralat menghantar ucapan.");
-        console.error(error);
+    .catch(err => {
+        alert("Error hantar ucapan: " + err);
     });
 });
+
 
 
 
