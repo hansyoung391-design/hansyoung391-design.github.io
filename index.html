@@ -275,21 +275,52 @@
         </div>
     </div>
 
-    <div id="rsvp-menu" class="toggle-menu">
-        <div class="rsvp">
-            <h1>Kehadiran</h1>
-            <div class="button">
-                <button type="button" id="btn-hadir">
-                    <i class='bx bx-check'></i>
-                    <span>Hadir</span>
-                </button>
-                <button type="button" id="btn-tidak-hadir">
-                    <i class='bx bx-x'></i>
-                    <span>Tidak Hadir</span>
-                </button>
-            </div>
+  <div id="rsvp-menu" class="toggle-menu">
+    <div class="rsvp">
+        <h1>Kehadiran</h1>
+        <div class="button">
+            <button type="button" id="btn-hadir">
+                <i class='bx bx-check'></i>
+                <span>Hadir</span>
+            </button>
+            <button type="button" id="btn-tidak-hadir">
+                <i class='bx bx-x'></i>
+                <span>Tidak Hadir</span>
+            </button>
         </div>
     </div>
+</div>
+
+<script>
+    // Gantikan URL ini dengan Web App URL Google Script anda
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxo08wiWJ4Y6lh7y8CsIWQfiJcxeoI_lBuSeYIGYCN42_Nkmrv_nxGhR1Ih9TkwAitU/exec";
+
+    // Klik Hadir
+    document.getElementById("btn-hadir").addEventListener("click", function () {
+        sendRSVP("Hadir");
+    });
+
+    // Klik Tidak Hadir
+    document.getElementById("btn-tidak-hadir").addEventListener("click", function () {
+        sendRSVP("Tidak Hadir");
+    });
+
+    // Function hantar ke Google Sheet
+    function sendRSVP(status) {
+        fetch(scriptURL, {
+            method: 'POST',
+            body: new URLSearchParams({
+                'status': status
+            })
+        })
+        .then(() => {
+            alert("Terima kasih! Kehadiran telah direkod.");
+        })
+        .catch(err => {
+            alert("Ralat: " + err);
+        });
+    }
+</script>
 
     <div id="contact-menu" class="toggle-menu">
         <div class="contact">
